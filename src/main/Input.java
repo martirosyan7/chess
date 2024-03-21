@@ -34,7 +34,7 @@ public class Input extends MouseAdapter {
 
         if (board.selectedPiece != null) {
             Move move = new Move(board, board.selectedPiece, col, row);
-            if (board.isValidMove(move)) {
+            if (board.isValidMove(move) && board.turn == board.selectedPiece.isWhite) {
                 board.makeMove(move);
             } else {
                 board.selectedPiece.xPosition = board.selectedPiece.col * board.titleSize;

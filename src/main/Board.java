@@ -9,9 +9,14 @@ import java.util.ArrayList;
 public class Board extends JPanel {
 
     public int titleSize = 85;
+    Graphics g;
 
     int cols = 8;
     int rows = 8;
+
+
+    public boolean turn = true;
+
 
     ArrayList<Piece> pieces = new ArrayList<>();
 
@@ -30,6 +35,7 @@ public class Board extends JPanel {
         this.addMouseMotionListener(input);
         addPiece();
     }
+
 
     public Piece getPiece(int col, int row) {
         for (Piece piece : pieces) {
@@ -57,6 +63,8 @@ public class Board extends JPanel {
 
             move.piece.isFirstMove = false;
         }
+
+        turn = !turn;
     }
 
 
@@ -104,6 +112,10 @@ public class Board extends JPanel {
 
         Piece piece = getPiece(move.piece.row, move.piece.col);
 
+
+        if (move.newRow < 0 || move.newRow >= rows || move.newCol < 0 || move.newCol >= cols) {
+            return false;
+        }
         if (sameTeam(move.piece, move.killedPiece)) {
             return false;
         }
@@ -213,8 +225,16 @@ public class Board extends JPanel {
                 }
             }
         }
-        
+
         for (Piece piece : pieces) {
+            if (piece.name.equals("King")) {
+                boolean isWhiteKing = piece.isWhite;
+                Move move = new Move(this, piece, piece.col, piece.row);
+                if (checkScanner.isKingChecked(move)) {
+                    g.setColor(Color.RED);
+                    g.fillRect(piece.col * titleSize, piece.row * titleSize, titleSize, titleSize);
+                }
+            }
             piece.paint((Graphics2D) g);
         }
     }

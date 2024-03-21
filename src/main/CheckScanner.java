@@ -11,6 +11,7 @@ public class CheckScanner {
     }
 
 
+
     public boolean isKingChecked(Move move) {
         Piece king = board.findKing(move.piece.isWhite);
         assert king != null;
@@ -32,7 +33,7 @@ public class CheckScanner {
                 hitByBishop(move.newCol, move.newRow, king, kingCol, kingRow, -1, -1) ||
                 hitByBishop(move.newCol, move.newRow, king, kingCol, kingRow, 1, -1) ||
                 hitByBishop(move.newCol, move.newRow, king, kingCol, kingRow, 1, 1) ||
-                hitByBishop(move.newCol, move.newRow, king, kingCol, kingRow, kingRow - 1, 1) ||
+                hitByBishop(move.newCol, move.newRow, king, kingCol, kingRow, -1, 1) ||
 
                 hitByKnight(move.newCol, move.newRow, king, kingCol, kingRow) ||
                 hitByPawn(move.newCol, move.newRow, king, kingCol, kingRow) ||
@@ -63,7 +64,7 @@ public class CheckScanner {
                 break;
             }
 
-            Piece piece = board.getPiece(kingCol - (i * colVal), kingRow + (i * rowVal));
+            Piece piece = board.getPiece(kingCol + (i * colVal), kingRow - (i * rowVal));
             if (piece != null && piece != board.selectedPiece) {
                 if (!board.sameTeam(piece, king) && (piece.name.equals("Bishop") || piece.name.equals("Queen"))) {
                     return true;
