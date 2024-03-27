@@ -25,7 +25,7 @@ public class Board extends JPanel {
     public int enPassantTitle = -1;
 
 
-    CheckScanner checkScanner = new CheckScanner(this);
+    public CheckScanner checkScanner = new CheckScanner(this);
 
     Input input = new Input(this);
 
@@ -52,19 +52,35 @@ public class Board extends JPanel {
 
         if (move.piece.name.equals("Pawn")) {
             movePawn(move);
-        } else {
-            move.piece.col = move.newCol;
-            move.piece.row = move.newRow;
-            move.piece.xPosition = move.newCol * titleSize;
-            move.piece.yPosition = move.newRow * titleSize;
-
-
-            capturePiece(move.killedPiece);
-
-            move.piece.isFirstMove = false;
+        } else if(move.piece.name.equals("King")){
+            moveKing(move);
         }
+        move.piece.col = move.newCol;
+        move.piece.row = move.newRow;
+        move.piece.xPosition = move.newCol * titleSize;
+        move.piece.yPosition = move.newRow * titleSize;
+
+
+        capturePiece(move.killedPiece);
+
+        move.piece.isFirstMove = false;
 
         turn = !turn;
+    }
+
+
+    private void moveKing(Move move) {
+        if (Math.abs(move.piece.col - move.newCol) == 2) {
+            Piece rook;
+            if (move.piece.col < move.newCol) {
+                rook = getPiece(7, move.piece.row);
+                rook.col = 5;
+            } else {
+                rook = getPiece(0, move.piece.row);
+                rook.col = 3;
+            }
+            rook.xPosition = rook.col * titleSize;
+        }
     }
 
 
@@ -86,16 +102,6 @@ public class Board extends JPanel {
         if (move.newRow == colorIndex) {
             promotePawn(move);
         }
-
-        move.piece.col = move.newCol;
-        move.piece.row = move.newRow;
-        move.piece.xPosition = move.newCol * titleSize;
-        move.piece.yPosition = move.newRow * titleSize;
-
-
-        capturePiece(move.killedPiece);
-
-        move.piece.isFirstMove = false;
     }
 
     private void promotePawn(Move move) {
