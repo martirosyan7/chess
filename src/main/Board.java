@@ -225,7 +225,7 @@ public class Board extends JPanel {
         if (selectedPiece != null)
             for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
-                if (isValidMove(new Move(this, selectedPiece, c, r))) {
+                if (isValidMove(new Move(this, selectedPiece, c, r)) && turn == selectedPiece.isWhite) {
                     g.setColor(new Color(68, 180, 57, 190));
                     g.fillRect(c * titleSize, r * titleSize, titleSize, titleSize);
                 }
