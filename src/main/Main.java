@@ -1,11 +1,15 @@
 package main;
 
+import main.server.Client;
+import main.server.Server;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class Main extends JFrame {
     private JButton singlePlayerButton;
@@ -13,6 +17,7 @@ public class Main extends JFrame {
 
     public Main() {
         setSize(200, 200);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel(new GridLayout(2, 1));
@@ -23,7 +28,11 @@ public class Main extends JFrame {
         singlePlayerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                startSinglePlayerGame();
+                try {
+                    GameWindow.open();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 dispose();
             }
         });
@@ -31,7 +40,13 @@ public class Main extends JFrame {
         multiplayerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                startMultiplayerGame();
+                openMultiplayerMenu();
+
+                //TODO: if multiplayer open window to select server or client.
+                // If server run server, if client run client.
+                // Open the game window and send moves to server.
+                // Bring back main methods
+
                 dispose();
             }
         });
@@ -44,7 +59,7 @@ public class Main extends JFrame {
     }
 
 
-    public void startSinglePlayerGame() {
+    public void startSinglePlayerGame() throws IOException {
         JFrame frame = new JFrame();
         frame.getContentPane().setBackground(Color.BLACK);
         frame.setLayout(new GridBagLayout());
@@ -64,11 +79,14 @@ public class Main extends JFrame {
         frame.setVisible(true);
     }
 
-    public void startMultiplayerGame() {
-        // TODO: Implement multiplayer game logic
-    }
 
+    public void openMultiplayerMenu() {
+        MultiplayerMenu multiplayerMenu = new MultiplayerMenu();
+        multiplayerMenu.setVisible(true);
+        dispose();
+    }
     public static void main(String[] args) {
+
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override

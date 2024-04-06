@@ -12,6 +12,7 @@ public class Move {
     public Piece piece;
     Piece killedPiece;
 
+
     public Move(Board board, Piece piece, int newCol, int newRow) {
         this.oldRow = piece.row;
         this.oldCol = piece.col;
@@ -21,4 +22,6 @@ public class Move {
         this.piece = piece;
         this.killedPiece = board.getPiece(newCol, newRow);
     }
+
+
 }
